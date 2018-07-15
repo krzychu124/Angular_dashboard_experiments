@@ -1,0 +1,48 @@
+.map-container {
+  height: 100%px;
+}
+
+.map-component {
+  width: 400px;
+  height: 350px;
+}
+.mat-tab-body-wrapper {
+  flex-grow: 1;
+}
+
+.mat-tab-body-content {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.tab-content {
+    height: 85vh;
+    width: 100%;
+    display: block;
+}
+.edit {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+}
+.settings-button {
+    right: 0px;
+}
+.mat-tab-label-active {
+    border: 1px solid gray;
+}
+.label {
+  width:300px;
+}
+.widget {
+  border: 1px solid black;
+}
+.mat-toolbar {
+  height: 40px;
+}
+.wg-widget-edit-resize {
+  z-index: 150 !important;
+}

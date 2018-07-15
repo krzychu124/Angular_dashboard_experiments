@@ -1,0 +1,51 @@
+$mat-header-row-height: 25px !default;
+$mat-row-height: 24px !default;
+$mat-row-horizontal-padding: 12px !default;
+.table {
+  width: 100%;
+}
+
+.container {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+}
+
+.mat-header-row {
+  min-height: 20px;
+  height: 25px;
+  max-height: 25px;
+  background: gainsboro;
+  box-shadow: 0px 5px 12px -1px rgba(0, 0, 0, 0.5);
+}
+
+.mat-row {
+  min-height: 20px;
+  height: 25px;
+  max-height: 25px;
+}
+
+.mat-footer-row {
+  min-height: 20px;
+  height: 25px;
+  max-height: 25px;
+  position: fixed;
+  bottom: 0px;
+}
+
+.mat-table {
+  display: table;
+  width: 100%;
+  >.mat-header-row,
+  >.mat-row {
+    display: table-row;
+    padding: 0;
+    border: none;
+    >.mat-header-cell,
+    >.mat-cell {
+      display: table-cell;
+      vertical-align: middle;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    }
+  }
+}

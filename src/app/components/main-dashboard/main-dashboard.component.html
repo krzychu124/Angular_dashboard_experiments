@@ -1,0 +1,47 @@
+<mat-toolbar>
+  <span>{{appTitle}}</span>
+</mat-toolbar>
+<div></div>
+<mat-tab-group [disableRipple]="true">
+  <mat-tab *ngFor="let tab of tabs; trackBy: trackByFn" #t>
+    <ng-template mat-tab-label class="label">
+      <span>
+        {{tab.title}}
+        <button mat-icon-button *ngIf="t.isActive" class="settings-button" (click)="toggleEdit($event)">
+          <mat-icon *ngIf="t.isActive && !movable" class="tab-icon-settings">settings</mat-icon>
+          <mat-icon *ngIf="t.isActive && movable" class="tab-icon-settings">check</mat-icon>
+        </button>
+      </span>
+    </ng-template>
+    <ng-template matTabContent>
+      <div *ngIf="tab.content == 'map';else e">
+        <div class="tab-content">
+ <!-- (contextmenu)="click($event)" -->
+          <ngx-widget-grid #grid [showGrid]="movable" [rows]="40" [columns]="50">
+            <div >
+              <ngx-widget [(position)]="wdgt.position" [movable]="movable" [resizable]="resizable" class="widget" *ngFor="let wdgt of widgets">
+                <app-map [parentSubject]="parensSubject" #m2 [id]="'map_'+ wdgt.id" class="map-component" *ngIf="wdgt.widgetType === 'map'"></app-map>
+                <app-basic-table *ngIf="wdgt.widgetType === 'table'" [name]="wdgt.name" [(position)]="wdgt.position"></app-basic-table>
+                <app-layers-selector *ngIf="wdgt.widgetType === 'layerConfig'" [name]="wdgt.name" [(position)]="wdgt.position"></app-layers-selector>
+              </ngx-widget>
+            </div>
+
+          </ngx-widget-grid>
+        </div>
+      </div>
+      <ng-template #e>
+        <mat-card class="mat-elevation-z1">
+          <mat-card-header>
+            <mat-card-title>Title</mat-card-title>
+            <mat-card-subtitle>Subtitle</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            Text content
+          </mat-card-content>
+          <mat-card-actions align="start">
+          </mat-card-actions>
+        </mat-card>
+      </ng-template>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>
