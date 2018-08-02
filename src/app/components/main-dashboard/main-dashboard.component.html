@@ -16,13 +16,13 @@
     <ng-template matTabContent>
       <div *ngIf="tab.content == 'map';else e">
         <div class="tab-content">
- <!-- (contextmenu)="click($event)" -->
+          <!-- (contextmenu)="click($event)" -->
           <ngx-widget-grid #grid [showGrid]="movable" [rows]="40" [columns]="50">
-            <div >
+            <div>
               <ngx-widget [(position)]="wdgt.position" [movable]="movable" [resizable]="resizable" class="widget" *ngFor="let wdgt of widgets">
-                <app-map [parentSubject]="parensSubject" #m2 [id]="'map_'+ wdgt.id" class="map-component" *ngIf="wdgt.widgetType === 'map'"></app-map>
+                <app-layers-selector #lsel *ngIf="wdgt.widgetType === 'layerConfig'" [name]="wdgt.name" [(position)]="wdgt.position" (layerStateChanged)="sub"></app-layers-selector>
+                <app-map [parentSubject]="parensSubject" #m2 [id]="'map_'+ wdgt.id" class="map-component" *ngIf="wdgt.widgetType === 'map'" [layersSubject]="sub"></app-map>
                 <app-basic-table *ngIf="wdgt.widgetType === 'table'" [name]="wdgt.name" [(position)]="wdgt.position"></app-basic-table>
-                <app-layers-selector *ngIf="wdgt.widgetType === 'layerConfig'" [name]="wdgt.name" [(position)]="wdgt.position"></app-layers-selector>
               </ngx-widget>
             </div>
 

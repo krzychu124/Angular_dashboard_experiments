@@ -1,6 +1,3 @@
-<p>
-  layers-selector - name {{name}}
-</p>
-<code>
-  {{position | json}}
-</code>
+<div class="col">
+<mat-checkbox style="display: block;" *ngFor="let l of layers" value="" color="primary" [name]="l" [(checked)]="false || layer[l]" (change)="checkboxStateChanged($event)">{{l}}</mat-checkbox>
+</div>

@@ -1,6 +1,13 @@
 import { Injectable } from '@angular/core';
 import { WidgedSettings } from '../interfaces/widged-settings';
 import { WidgetPosition } from '../interfaces/widget-position';
+import { Observable, of } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { flatMap } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { HttpParams } from '@angular/common/http';
+import OlVector from 'ol/layer/vector';
+import WFS from 'ol/format/wfs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +19,7 @@ export class DataService {
   public static getNextId(): number {
     return DataService.currentId++;
   }
-  constructor() {
+  constructor(private _http: HttpClient) {
     this.initComponents();
   }
   getSettings(id) {
@@ -63,5 +70,36 @@ export class DataService {
   }
   public getWidgets(i: number) {
     return this.components[i];
+  }
+  getLayers(): Observable<string[]> {
+    return this._http.get(environment.geoserverRest + '/layers').pipe(flatMap(resp => {
+      const l = this.parseLayers(resp);
+      return of(l);
+    }));
+  }
+  parseLayers(resp) {
+    return resp.layers.layer.map(layer => layer.name.substr(layer.name.indexOf(':') + 1, layer.name.length));
+  }
+  getFeatures(type: string, vectorLayer: OlVector) {
+    let params = new HttpParams();
+    params = params.append('service', 'WFS')
+      .append('version', '1.1.0')
+      .append('request', 'GetFeature')
+      .append('typename', type)
+      .append('srsname', 'EPSG:3857');
+    // .append('CQL_FILTER', 'name like \'' + this.streetName + '%\'');
+    // .append('bbox', extent.join(',') + ',EPSG:3857');
+    this._http.get('http://localhost:8080/geoserver/ows', { params: params, responseType: 'text' }).subscribe((response) => {
+      vectorLayer
+        .getSource()
+        .addFeatures(new WFS()
+          .readFeatures(response));
+    }, err => {
+      console.log('failed', err);
+    });
+  }
+
+  getLayerOfType(type: string, vectorLayer: OlVector): Function {
+        return Object.apply(this.getFeatures, [type, vectorLayer]);
   }
 }

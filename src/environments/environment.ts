@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  server: 'http://localhost:8090/',
+  geoserver: 'http://localhost:8080/geoserver',
+  geoserverRest: 'http://localhost:8080/geoserver/rest',
+  actors: '/actors'
 };
 
 /*

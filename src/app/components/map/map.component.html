@@ -1,1 +1,4 @@
 <div class="map" [id]="id"></div>
+    <input style="position: absolute; bottom: 30px; left: 30px; z-index: 150;"
+           type="text" placeholder="" [(ngModel)]="streetName"> 
+           <button mat-raised-button-sm style="position: absolute; bottom: 30px; left: 180px; z-index: 150;" (click)="setStreetName()">Search</button>

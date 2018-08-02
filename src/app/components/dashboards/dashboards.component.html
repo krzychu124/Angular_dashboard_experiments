@@ -1,0 +1,32 @@
+<div class="tabs">
+  <ng-template *ngIf="dashboards.length ===0; else tabs">
+    <button mat-raised-button (click)="createDashboard()">Create new dashboard</button>
+  </ng-template>
+  <ng-template #tabs>
+    <mat-tab-group [disableRipple]="true" class="tab">
+      <mat-tab *ngFor="let dashboard of dashboards; trackBy: trackByFn" #t>
+        <ng-template mat-tab-label class="label">
+          <span>
+            {{dashboard.name}}
+            <!-- <button mat-icon-button *ngIf="t.isActive" class="settings-button" (click)="toggleDashboardEdit($event)">
+          <mat-icon *ngIf="t.isActive && !movable" class="tab-icon-settings">settings</mat-icon>
+          <mat-icon *ngIf="t.isActive && movable" class="tab-icon-settings">check</mat-icon>
+        </button> -->
+          </span>
+        </ng-template>
+        <ng-template matTabContent style="height: 100%; width: 100%">
+          <ngx-widget-grid [rows]="dashboard.config.rows" [columns]="dashboard.config.cols" [showGrid]="dashboard.config.showGrid">
+
+          </ngx-widget-grid>
+        </ng-template>
+      </mat-tab>
+      <mat-tab disabled #buttonAdd>
+        <ng-template mat-tab-label>
+          <button mat-icon-button (click)="createDashboard()">
+            <mat-icon>add_circle</mat-icon>
+          </button>
+        </ng-template>
+      </mat-tab>
+    </mat-tab-group>
+  </ng-template>
+</div>

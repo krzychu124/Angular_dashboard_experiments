@@ -12,6 +12,12 @@ import { BasicTableComponent } from './components/basic-table/basic-table.compon
 import { LayersSelectorComponent } from './components/layers-selector/layers-selector.component';
 import { NgxWidgetGridModule, NgxWidgetComponent } from 'ngx-widget-grid';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { DashboardsComponent } from './components/dashboards/dashboards.component';
+import { Dashboards2Component } from './components/dashboards2/dashboards2.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CustomNgbtabsetComponent } from './components/custom_components/custom-ngbtabset/custom-ngbtabset.component';
 
 @NgModule({
    declarations: [
@@ -20,15 +26,21 @@ import { CommonModule } from '@angular/common';
       MainDashboardComponent,
       MapComponent,
       BasicTableComponent,
-      LayersSelectorComponent
+      LayersSelectorComponent,
+      DashboardsComponent,
+      Dashboards2Component,
+      CustomNgbtabsetComponent
    ],
    imports: [
       BrowserModule,
       AppRoutes,
       CommonModule,
+      FormsModule,
+      HttpClientModule,
       BrowserAnimationsModule,
       MaterialModule,
-      NgxWidgetGridModule
+      NgxWidgetGridModule,
+      NgbModule.forRoot()
    ],
    providers: [],
    bootstrap: [

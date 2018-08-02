@@ -22,11 +22,13 @@
     "@angular/platform-browser": "^6.0.2",
     "@angular/platform-browser-dynamic": "^6.0.2",
     "@angular/router": "^6.0.2",
+    "@ng-bootstrap/ng-bootstrap": "^2.2.1",
     "@types/ol": "^4.6.2",
     "core-js": "^2.5.4",
     "hammerjs": "^2.0.8",
     "ngx-widget-grid": "^5.0.1",
     "ol": "^4.6.2",
+    "primeng": "^6.1.0-rc.1",
     "rxjs": "^6.2.2",
     "zone.js": "^0.8.26"
   },

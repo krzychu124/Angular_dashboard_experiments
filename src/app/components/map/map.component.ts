@@ -7,7 +7,16 @@ import Proj from 'ol/proj';
 import { Input } from '@angular/core';
 import { DataService } from 'src/app/services/data.service';
 import { Subject } from 'rxjs';
-
+import Style from 'ol/style/style';
+import Stroke from 'ol/style/stroke';
+import Circle from 'ol/style/circle';
+import Fill from 'ol/style/fill';
+import WFS from 'ol/format/wfs';
+import loadingstrategy from 'ol/loadingstrategy';
+import OlVector from 'ol/layer/vector';
+import OlSourceVector from 'ol/source/vector';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Layer } from '../layers-selector/layers-selector.component';
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -19,14 +28,28 @@ export class MapComponent implements OnInit, OnDestroy, AfterContentInit {
   source: XYZ;
   layer: TileLayer;
   view: View;
+  layerWFS: OlVector;
   @Input() id = 'map';
-  constructor(private dataService: DataService) { }
+  @Input() layersSubject: Subject<Layer>;
+  styles = [
+    new Style({
+      stroke: new Stroke({
+        color: '#0c61ff',
+        width: 4
+      })
+    })
+  ];
+  streetName: string = 'Le';
+  constructor(private dataService: DataService, private _http: HttpClient) { }
 
   ngOnInit() {
     this.parentSubject.subscribe(event => {
       if (this.map) {
         this.map.updateSize();
       }
+    });
+    this.layersSubject.subscribe(l => {
+      this.updateLayer(l);
     });
     this.source = new XYZ({
       // Tiles from Mapbox (Light)
@@ -36,18 +59,17 @@ export class MapComponent implements OnInit, OnDestroy, AfterContentInit {
       source: this.source
     });
     this.view = new View({
-      center: Proj.fromLonLat([6.661594, 50.433237]),
-      zoom: 3,
+      center: Proj.fromLonLat([19.3053432, 50.624226]),
+      zoom: 10
     });
-    console.log('i call');
+    this.layerWFS = this.getLayer();
   }
   init() {
     this.map = new Map({
       target: this.id,
-      layers: [this.layer],
+      layers: [this.layer, this.layerWFS],
       view: this.view
     });
-    console.log('in call');
   }
   ngAfterContentInit() {
     setTimeout(() => {
@@ -61,5 +83,83 @@ export class MapComponent implements OnInit, OnDestroy, AfterContentInit {
     } else {
       console.log('no source');
     }
+  }
+  getColor(feature) {
+    let color = '#ff00ff';
+    switch (feature.getProperties().name) {
+      case 'feature-1':
+        color = '#ff1200';
+        break;
+      case 'feature-2':
+        color = '#00FF00';
+        break;
+      case 'feature-3':
+        color = '#ff1200';
+        break;
+    }
+    return color;
+  }
+  getStyle(feature, resolution) {
+    console.log(feature);
+    return new Style({
+      image: new Circle({
+        radius: 10,
+        stroke: new Stroke({
+          color: '#fff'
+        }),
+        fill: new Fill({
+          color: this.getColor(feature)
+        })
+      })
+    });
+  }
+  setStreetName() {
+    this.layerWFS.getSource().clear(true);
+    console.log(this.streetName);
+    
+  }
+  getLayer() {
+    const style = this.styles[0];
+    return new OlVector({
+      source: new OlSourceVector({
+        loader: (extent) => {
+          let params = new HttpParams();
+          params = params.append('service', 'WFS')
+            .append('version', '1.1.0')
+            .append('request', 'GetFeature')
+            .append('typename', 'powerlines')
+            .append('srsname', 'EPSG:3857');
+            // .append('CQL_FILTER', 'name like \'' + this.streetName + '%\'');
+          // .append('bbox', extent.join(',') + ',EPSG:3857');
+          this._http.get('http://localhost:8080/geoserver/ows', { params: params, responseType: 'text' }).subscribe((response) => {
+            this.layerWFS
+              .getSource()
+              .addFeatures(new WFS()
+                .readFeatures(response));
+          }, err => {
+            console.log('failed', err);
+          });
+        },
+        // strategy: loadingstrategy.bbox
+      }),
+      style: (f, res) => this.style(f, res)
+    });
+  }
+  style(f, res) {
+    const s = this.styles[0];
+    const zoom = this.map.getView().getZoom();
+    const dsize = (100 / res) / zoom;
+    let size = Math.round(dsize);
+    if (size < 0.01) {
+      size = 0.5;
+    }
+    if (size > 10) {
+      size = 10;
+    }
+    s.getStroke().setWidth(size);
+    return s;
+  }
+  updateLayer(layer: Layer): any {
+    console.log(layer);
   }
 }

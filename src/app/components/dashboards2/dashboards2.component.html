@@ -1,0 +1,21 @@
+<button mat-raised-button (click)="addTab()">AddTabTest</button>
+<app-custom-ngbtabset [newTabSubject]="sub">
+  <ngb-tab *ngFor="let dash of dashboards" title="dash">
+    <ng-template ngbTabContent>
+
+    </ng-template>
+  </ngb-tab>
+</app-custom-ngbtabset>
+
+<ng-template #tpl>
+  <ngx-widget-grid [columns]="10" [rows]="8" [showGrid]="'true'" style="height: 100%">
+    <ngx-widget [movable]="'true'" [resizable]="'true'" [position]="{top:1, left: 1, width: 5, height:1}">
+      <div class="p-2 w-test">
+        <mat-form-field class="m-2" floatPlaceholder="auto">
+          <input matInput #inp type="text" placeholder="Tab title">
+        </mat-form-field>
+        <button class="m-2" mat-raised-button color="primary" (click)="addTab(inp.value)">New tab</button>
+      </div>
+    </ngx-widget>
+  </ngx-widget-grid>
+</ng-template>
