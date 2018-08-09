@@ -22,9 +22,6 @@ export class LayersSelectorComponent implements OnInit {
 
   ngOnInit() {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
-    this._http.get(environment.geoserverRest + '/layers', { headers: headers }).subscribe(resp => {
-      this.layers = [resp as string];
-    }, err => console.log(err));
     this.prepareLayers();
   }
   prepareLayers() {

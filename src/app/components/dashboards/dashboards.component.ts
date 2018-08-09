@@ -1,6 +1,7 @@
-import { Component, OnInit, Renderer2, AfterViewInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit, Renderer2, AfterViewInit, ViewChild, ViewContainerRef, TemplateRef } from '@angular/core';
 import { Dashboard } from '../../interfaces/dashboard';
 import { DashboardConfig } from '../../interfaces/dashboardConfig';
+import { ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-dashboards',
@@ -28,6 +29,5 @@ export class DashboardsComponent implements OnInit, AfterViewInit {
     this.dashboards.push({config: {rows: 25, cols: 30, showGrid: true}as DashboardConfig, name: 'Dash'+ this.dashboards.length +1}as Dashboard)
   }
   toggleDashboardEdit($event) {
-
   }
 }

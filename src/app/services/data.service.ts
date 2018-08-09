@@ -9,9 +9,7 @@ import { HttpParams } from '@angular/common/http';
 import OlVector from 'ol/layer/vector';
 import WFS from 'ol/format/wfs';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class DataService {
   private static currentId = 0;
   settings = {};

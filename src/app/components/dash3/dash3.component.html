@@ -1,0 +1,19 @@
+<ngb-tabset>
+  <ngb-tab [title]="tab" *ngFor="let tab of tabs">
+    <ng-template ngbTabTitle>
+
+    </ng-template>
+    <ng-template ngbTabContent>
+      <w-weapper [type]="type" [sub]="subject">
+        <app-basic-table #widget></app-basic-table>
+        <app-basic-table #widget></app-basic-table>
+        <app-basic-table #widget></app-basic-table>
+        <!-- <app-custom-ngbtabset #widget>
+          <ngb-tab title="title"><p>C2</p>
+            <app-basic-table></app-basic-table>
+          </ngb-tab>
+        </app-custom-ngbtabset> -->
+      </w-weapper>
+    </ng-template>
+  </ngb-tab>
+</ngb-tabset>

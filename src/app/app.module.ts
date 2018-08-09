@@ -16,8 +16,13 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { DashboardsComponent } from './components/dashboards/dashboards.component';
 import { Dashboards2Component } from './components/dashboards2/dashboards2.component';
+import { Dash3Component } from './components/dash3/dash3.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CustomNgbtabsetComponent } from './components/custom_components/custom-ngbtabset/custom-ngbtabset.component';
+import { TabbedContent} from './directives/tabbed-content.directive';
+import { TabContentDirective} from './directives/tab-content.directive';
+import { WidgetWrapperComponent } from './components/dash3/WidgetWrapper.component';
+import { CommonServicesModule } from './services/common-services.module';
 
 @NgModule({
    declarations: [
@@ -29,7 +34,11 @@ import { CustomNgbtabsetComponent } from './components/custom_components/custom-
       LayersSelectorComponent,
       DashboardsComponent,
       Dashboards2Component,
-      CustomNgbtabsetComponent
+      CustomNgbtabsetComponent,
+      Dash3Component,
+      TabbedContent,
+      TabContentDirective,
+      WidgetWrapperComponent
    ],
    imports: [
       BrowserModule,
@@ -40,7 +49,8 @@ import { CustomNgbtabsetComponent } from './components/custom_components/custom-
       BrowserAnimationsModule,
       MaterialModule,
       NgxWidgetGridModule,
-      NgbModule.forRoot()
+      NgbModule.forRoot(),
+      CommonServicesModule
    ],
    providers: [],
    bootstrap: [

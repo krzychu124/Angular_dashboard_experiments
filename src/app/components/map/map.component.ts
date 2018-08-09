@@ -17,6 +17,7 @@ import OlVector from 'ol/layer/vector';
 import OlSourceVector from 'ol/source/vector';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Layer } from '../layers-selector/layers-selector.component';
+import { debounceTime } from 'rxjs/operators';
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',

@@ -1,0 +1,23 @@
+<div>
+<button class="btn btn-danger" (click)="switch()">Switch</button>
+<ngb-tabset>
+  <ng-template [ngTemplateOutlet]="template?.template" [ngTemplateOutletContext]="template?.context"></ng-template>
+  <ngb-tab title="test">
+  <ng-template ngbTabContent>
+    <p>content</p>
+<ng-container *ngFor="let widget of widgets">
+  <ng-component *ngComponentOutlet="widget" ></ng-component>
+</ng-container>
+  </ng-template>
+</ngb-tab>
+</ngb-tabset>
+</div>
+<ng-template #map let-item>
+<app-map [parentSubject]="item.subject" [layersSubject]="item.subject">
+  </app-map>
+</ng-template>
+<ng-template #tab let-item>
+<code>{{item.subject | json}}</code>
+  <p>TEST</p>
+  <app-basic-table></app-basic-table>
+</ng-template>
